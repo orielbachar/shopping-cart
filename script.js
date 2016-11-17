@@ -1,13 +1,26 @@
 // an array with all of our cart items
 var cart = [];
 
-var updateCart = function () {
-  // TODO: finish
+var CartItem = function(name, price){
+  this.name = name;
+  this.price = price;
 }
+
+var updateCart = function () {
+  //  finish
+
+  source = $("#shopping-template").html();
+  template = Handlebars.compile(source);
+
+  for (var i = 0; i<cart.length; i++){
+    var newHTML = template(cart[i]);
+  }
+  $('.cart-list').append(newHTML);
+};
 
 
 var addItem = function (item) {
-  // TODO: finish
+  cart.push(item);
 }
 
 var clearCart = function () {
@@ -15,11 +28,13 @@ var clearCart = function () {
 }
 
 $('.view-cart').on('click', function () {
-  // TODO: hide/show the shopping cart!
+  $('.shopping-cart').toggle();
 });
 
 $('.add-to-cart').on('click', function () {
-  // TODO: get the "item" object from the page
+  //  get the "item" object from the page
+  var target = $(this).closest("div[item]").data();
+  var item = new CartItem(target.name, target.price);
   addItem(item);
   updateCart();
 });
