@@ -8,23 +8,45 @@ var CartItem = function(name, price){
 
 var updateCart = function () {
   //  finish
-
+  $('.cart-list').empty();
   source = $("#shopping-template").html();
   template = Handlebars.compile(source);
-
+  $('.total').html('0');
   for (var i = 0; i<cart.length; i++){
     var newHTML = template(cart[i]);
+    $('.cart-list').append(newHTML);
+    $('.total').html(calcTotal());
   }
-  $('.cart-list').append(newHTML);
 };
+
+var calcTotal = function(){
+  var total = 0;
+  for (var i = 0; i<cart.length; i++){
+    total += cart[i].price;
+  }
+  return total;
+}
 
 
 var addItem = function (item) {
-  cart.push(item);
+
+  var itemExists = cart.indexOf(item);
+  if(itemExists == -1){
+    cart.push(item)
+  }
+  else{
+    cart.item.quantity ++;
+  }
 }
+
+$('.clear-cart').on("click", function(){
+  clearCart();
+});
 
 var clearCart = function () {
   // TODO: finish
+  $('.cart-list').empty();
+  $('.total').html('0');
 }
 
 $('.view-cart').on('click', function () {
@@ -41,6 +63,7 @@ $('.add-to-cart').on('click', function () {
 
 $('.clear-cart').on('click', function () {
   clearCart();
+
 });
 
 // update the cart as soon as the page loads!
